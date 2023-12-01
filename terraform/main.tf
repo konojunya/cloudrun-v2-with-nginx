@@ -29,38 +29,38 @@ resource "google_artifact_registry_repository" "sample" {
 }
 
 // Cloud Run
-# resource "google_cloud_run_v2_service" "sample" {
-#   provider = google-beta
-#   name     = "sample"
-#   location = var.default_region
-#   ingress  = "INGRESS_TRAFFIC_ALL"
+resource "google_cloud_run_v2_service" "sample" {
+  provider = google-beta
+  name     = "sample"
+  location = var.default_region
+  ingress  = "INGRESS_TRAFFIC_ALL"
 
-#   template {
-#     // コンテナイメージの設定
-#     containers {
-#       name = "app"
-#       ports {
-#         container_port = 8080
-#       }
-#       image      = "asia-northeast1-docker.pkg.dev/${var.project_id}/sample/app"
-#       depends_on = ["nginx"]
-#     }
+  template {
+    // コンテナイメージの設定
+    containers {
+      name = "app"
+      ports {
+        container_port = 8080
+      }
+      image      = "asia-northeast1-docker.pkg.dev/${var.project_id}/sample/app"
+      depends_on = ["proxy"]
+    }
 
-#     // Sidecar コンテナの設定
-#     containers {
-#       name  = "nginx"
-#       image = "asia-northeast1-docker.pkg.dev/${var.project_id}/sample/nginx"
-#     }
+    // Proxy コンテナの設定
+    containers {
+      name  = "proxy"
+      image = "asia-northeast1-docker.pkg.dev/${var.project_id}/sample/proxy"
+    }
 
-#     // auto scaling の設定
-#     scaling {
-#       min_instance_count = 0
-#       max_instance_count = 1
-#     }
-#   }
+    // auto scaling の設定
+    scaling {
+      min_instance_count = 0
+      max_instance_count = 1
+    }
+  }
 
-#   traffic {
-#     type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
-#     percent = 100
-#   }
-# }
+  traffic {
+    type    = "TRAFFIC_TARGET_ALLOCATION_TYPE_LATEST"
+    percent = 100
+  }
+}
