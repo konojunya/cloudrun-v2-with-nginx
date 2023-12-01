@@ -11,3 +11,14 @@ build:
 push:
 	docker push $(APP_IMAGE_NAME)
 	docker push $(PROXY_IMAGE_NAME)
+
+.PHONY: deploy
+deploy:
+	gcloud beta run deploy sample \
+		--platform managed \
+		--region asia-northeast1 \
+		--container proxy \
+		--image $(PROXY_IMAGE_NAME) \
+		--port 8080 \
+		--container app \
+		--image $(APP_IMAGE_NAME) \

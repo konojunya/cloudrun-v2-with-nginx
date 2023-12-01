@@ -9,24 +9,24 @@ provider "google-beta" {
 }
 
 // Artifact Registry
-# resource "google_artifact_registry_repository" "sample" {
-#   provider      = google-beta
-#   location      = var.default_region
-#   repository_id = "sample"
-#   description   = "sample project"
-#   format        = "DOCKER"
+resource "google_artifact_registry_repository" "sample" {
+  provider      = google-beta
+  location      = var.default_region
+  repository_id = "sample"
+  description   = "sample project"
+  format        = "DOCKER"
 
-#   /**
-#   * Artifact Registry で保存するコンテナイメージを数で指定する
-#   */
-#   cleanup_policies {
-#     id     = "keep_minimum-versions"
-#     action = "KEEP"
-#     most_recent_versions {
-#       keep_count = 3
-#     }
-#   }
-# }
+  /**
+  * Artifact Registry で保存するコンテナイメージを数で指定する
+  */
+  cleanup_policies {
+    id     = "keep_minimum-versions"
+    action = "KEEP"
+    most_recent_versions {
+      keep_count = 3
+    }
+  }
+}
 
 // Cloud Run
 resource "google_cloud_run_v2_service" "sample" {
