@@ -22,3 +22,6 @@ deploy:
 		--port 8080 \
 		--container app \
 		--image $(APP_IMAGE_NAME) \
+
+.PHONY: all
+all: build push deploy
