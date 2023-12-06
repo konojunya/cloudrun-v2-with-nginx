@@ -44,6 +44,14 @@ resource "google_cloud_run_v2_service" "sample" {
         name  = "PORT"
         value = "8888"
       }
+      startup_probe {
+        timeout_seconds   = 240
+        period_seconds    = 240
+        failure_threshold = 1
+        tcp_socket {
+          port = 8888
+        }
+      }
     }
 
     // Proxy コンテナの設定
@@ -54,6 +62,14 @@ resource "google_cloud_run_v2_service" "sample" {
       }
       depends_on = ["app"]
       image      = "asia-northeast1-docker.pkg.dev/${var.project_id}/sample/proxy:latest"
+      startup_probe {
+        timeout_seconds   = 240
+        period_seconds    = 240
+        failure_threshold = 1
+        tcp_socket {
+          port = 8080
+        }
+      }
     }
 
     // auto scaling の設定
