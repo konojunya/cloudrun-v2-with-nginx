@@ -38,9 +38,8 @@ resource "google_cloud_run_v2_service" "sample" {
   template {
     // アプリケーションコンテナイメージの設定
     containers {
-      name       = "app"
-      image      = "asia-northeast1-docker.pkg.dev/${var.project_id}/sample/app:latest"
-      depends_on = ["proxy"]
+      name  = "app"
+      image = "asia-northeast1-docker.pkg.dev/${var.project_id}/sample/app:latest"
       env {
         name  = "PORT"
         value = "8888"
@@ -53,7 +52,8 @@ resource "google_cloud_run_v2_service" "sample" {
       ports {
         container_port = 8080
       }
-      image = "asia-northeast1-docker.pkg.dev/${var.project_id}/sample/proxy:latest"
+      depends_on = ["app"]
+      image      = "asia-northeast1-docker.pkg.dev/${var.project_id}/sample/proxy:latest"
     }
 
     // auto scaling の設定
