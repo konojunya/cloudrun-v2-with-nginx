@@ -16,9 +16,7 @@ resource "google_artifact_registry_repository" "sample" {
   description   = "sample project"
   format        = "DOCKER"
 
-  /**
-  * Artifact Registry で保存するコンテナイメージを数で指定する
-  */
+  cleanup_policy_dry_run = false
   cleanup_policies {
     id     = "keep_minimum-versions"
     action = "KEEP"
